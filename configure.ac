@@ -16,6 +16,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 AC_CHECK_HEADERS([sys/capability.h], [], [AC_MSG_ERROR([*** POSIX caps headers not found])])
+AC_CHECK_FUNCS_ONCE([clearenv])
 
 AC_ARG_ENABLE(man,
               [AS_HELP_STRING([--enable-man],
