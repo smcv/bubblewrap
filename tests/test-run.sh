@@ -80,7 +80,7 @@ if ! $RUN true; then
     skip Seems like bwrap is not working at all. Maybe setuid is not working
 fi
 
-echo "1..49"
+echo "1..50"
 
 # Test help
 ${BWRAP} --help > help.txt
@@ -384,5 +384,13 @@ else
     echo "ok - Test --pidns"
 fi
 
+FOO= BAR=baz $RUN --setenv FOO bar sh -c 'echo "$FOO$BAR"' > stdout
+assert_file_has_content stdout barbaz
+FOO=wrong BAR=baz $RUN --setenv FOO bar sh -c 'echo "$FOO$BAR"' > stdout
+assert_file_has_content stdout barbaz
+FOO=wrong BAR=baz $RUN --unsetenv FOO sh -c 'printf "%s%s" "$FOO" "$BAR"' > stdout
+printf baz > reference
+assert_files_equal stdout reference
+echo "ok - environment manipulation"
 
 echo "ok - End of test"
